@@ -17,7 +17,7 @@ import {
   UsePipes,
 } from '@nestjs/common';
 import { ParameterCheckPipe } from 'src/common';
-import { loginDto, userDto } from 'src/dto';
+import { loginDto, UserDto } from 'src/dto';
 import { UserService } from './user.service';
 
 @Controller('user')
@@ -34,14 +34,14 @@ export class UserController {
   @HttpCode(200)
   @UsePipes(new ParameterCheckPipe())
   @Post('/create')
-  create(@Body() user: userDto) {
+  create(@Body() user: UserDto) {
     return this.userService.createUser(user);
   }
 
   @HttpCode(200)
   @UsePipes(new ParameterCheckPipe())
   @Post('/update')
-  update(@Body() user: userDto) {
+  update(@Body() user: UserDto) {
     return this.userService.updateUser(user);
   }
 

@@ -1,7 +1,7 @@
 /*
  * @Author: jack-pearson
  * @Date: 2021-12-28 16:56:54
- * @LastEditTime: 2021-12-29 11:07:45
+ * @LastEditTime: 2022-01-17 15:53:48
  * @LastEditors: jack-pearson
  * @FilePath: /server-cluster/src/dto/menu/index.dto.ts
  * @Description:
@@ -9,7 +9,7 @@
 import { IsNotEmpty } from 'class-validator';
 import { Menu } from 'src/entities';
 
-export class menuDto extends Menu {
+export class MenuDto extends Menu {
   @IsNotEmpty({ message: 'id不能为空' })
   id: number;
 

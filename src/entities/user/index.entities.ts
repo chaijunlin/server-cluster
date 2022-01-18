@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-12-06 17:12:13
- * @LastEditTime: 2022-01-11 13:44:22
+ * @LastEditTime: 2022-01-18 11:36:30
  * @LastEditors: jack-pearson
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: /server-cluster/src/entities/user/index.entities.ts
@@ -75,9 +75,9 @@ export class User {
   })
   sex: 'null' | 'man' | 'girl';
 
-  @CreateDateColumn()
-  createTime: Timestamp;
+  @CreateDateColumn({ length: 0 })
+  createTime: Date;
 
-  @UpdateDateColumn()
-  updateTime: Timestamp;
+  @UpdateDateColumn({ length: 0 })
+  updateTime: Date;
 }

@@ -1,7 +1,7 @@
 /*
  * @Author: jack-pearson
  * @Date: 2021-12-13 13:45:30
- * @LastEditTime: 2022-01-14 19:01:32
+ * @LastEditTime: 2022-01-18 11:32:53
  * @LastEditors: jack-pearson
  * @FilePath: /server-cluster/src/entities/menu/index.entities.ts
  * @Description:
@@ -102,9 +102,9 @@ export class Menu {
   })
   isTagView: boolean;
 
-  @CreateDateColumn()
+  @CreateDateColumn({ length: 0 })
   createTime: Date;
 
-  @UpdateDateColumn()
+  @UpdateDateColumn({ length: 0 })
   updateTime: Date;
 }

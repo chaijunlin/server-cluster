@@ -1,7 +1,7 @@
 /*
  * @Author: jack-pearson
  * @Date: 2021-12-28 15:51:30
- * @LastEditTime: 2021-12-28 16:31:26
+ * @LastEditTime: 2022-01-17 15:54:00
  * @LastEditors: jack-pearson
  * @FilePath: /server-cluster/src/dto/user/index.dto.ts
  * @Description:
@@ -21,4 +21,4 @@ export class loginDto extends User {
   password: string;
 }
 
-export class userDto extends loginDto {}
+export class UserDto extends loginDto {}

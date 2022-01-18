@@ -15,7 +15,7 @@ import {
   UsePipes,
 } from '@nestjs/common';
 import { ParameterCheckPipe } from 'src/common';
-import { menuDto } from 'src/dto/menu/index.dto';
+import { MenuDto } from 'src/dto/menu/index.dto';
 import { MenuService } from './menu.service';
 
 @Controller('menu')
@@ -25,7 +25,7 @@ export class MenuController {
   @HttpCode(200)
   @Post('/create')
   @UsePipes(new ParameterCheckPipe())
-  createMenu(@Body() menu: menuDto) {
+  createMenu(@Body() menu: MenuDto) {
     return this.menuService.createMenu(menu);
   }
 
