@@ -1,7 +1,7 @@
 /*
  * @Author: jack-pearson
  * @Date: 2022-01-17 15:06:34
- * @LastEditTime: 2022-01-18 18:44:08
+ * @LastEditTime: 2022-01-19 10:47:27
  * @LastEditors: jack-pearson
  * @FilePath: /server-cluster/src/module/dept/dept.controller.ts
  * @Description:
@@ -14,6 +14,7 @@ import {
   HttpCode,
   Param,
   Post,
+  Query,
   UsePipes,
 } from '@nestjs/common';
 import { ParameterCheckPipe } from 'src/common';
@@ -33,14 +34,14 @@ export class DeptController {
   @HttpCode(200)
   @Post('update')
   @UsePipes(new ParameterCheckPipe())
-  async updeteDept(@Body() dept: DeptDto) {
+  async updateDept(@Body() dept: DeptDto) {
     return await this.deptService.updateDept(dept);
   }
 
   @HttpCode(200)
-  @Get('findAll')
-  async findAllDept() {
-    return await this.deptService.findAllDept();
+  @Get('query')
+  async query(@Query() query: any) {
+    return await this.deptService.query(query);
   }
 
   @HttpCode(200)
