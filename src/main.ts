@@ -11,11 +11,7 @@ import * as helmet from 'helmet';
 import * as bodyParser from 'body-parser';
 import * as rateLimit from 'express-rate-limit';
 import { AppModule } from './app.module';
-import {
-  SuccessInterceptor,
-  HttpExceptionFilter,
-  TimeoutInterceptor,
-} from 'src/common';
+import { SuccessInterceptor, HttpExceptionFilter, TimeoutInterceptor } from 'src/common';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
@@ -31,8 +27,7 @@ async function bootstrap() {
     rateLimit({
       windowMs: 1000 * 60 * 60, // an hour
       max: 10000, // limit each IP to 100 requests per windowMs
-      message:
-        '⚠️  Too many request created from this IP, please try again after an hour',
+      message: '⚠️  Too many request created from this IP, please try again after an hour',
     }),
   );
   app.useGlobalFilters(new HttpExceptionFilter());

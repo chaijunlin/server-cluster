@@ -1,19 +1,14 @@
 /*
  * @Author: jack-pearson
  * @Date: 2022-01-17 15:37:01
- * @LastEditTime: 2022-01-19 14:37:33
+ * @LastEditTime: 2022-01-20 14:40:03
  * @LastEditors: jack-pearson
  * @FilePath: /server-cluster/src/entities/dept.entities.ts
  * @Description:
  */
-import {
-  Column,
-  CreateDateColumn,
-  Entity,
-  PrimaryColumn,
-  UpdateDateColumn,
-} from 'typeorm';
+import { Column, CreateDateColumn, Entity, JoinTable, ManyToMany, OneToMany, PrimaryColumn, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 import { plainToClass } from 'class-transformer';
+import { User } from './user.entities';
 
 @Entity({
   name: 'dept',
@@ -34,6 +29,12 @@ export class Dept {
     comment: '主键',
   })
   id: number;
+
+  @ManyToMany(() => User, (user) => user.dept)
+  @JoinTable({
+    name: 'user_dept',
+  })
+  user: User[];
 
   @Column({
     comment: '父节点 id',

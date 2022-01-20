@@ -1,19 +1,14 @@
 /*
  * @Author: your name
  * @Date: 2021-12-06 17:12:13
- * @LastEditTime: 2022-01-19 14:40:46
+ * @LastEditTime: 2022-01-20 14:36:18
  * @LastEditors: jack-pearson
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: /server-cluster/src/entities/user.entities.ts
  */
-import {
-  Entity,
-  PrimaryGeneratedColumn,
-  Column,
-  CreateDateColumn,
-  UpdateDateColumn,
-} from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, ManyToMany } from 'typeorm';
 import { plainToInstance, Expose } from 'class-transformer';
+import { Dept } from '.';
 @Entity({
   name: 'user',
 })
@@ -31,6 +26,9 @@ export class User {
 
   @PrimaryGeneratedColumn({ comment: '主键' })
   id: number;
+
+  @ManyToMany(() => Dept, (dept) => dept.user)
+  dept: Dept[];
 
   @Expose()
   @Column({ comment: '账户', unique: true })

@@ -1,14 +1,14 @@
 /*
  * @Author: your name
  * @Date: 2021-12-06 17:05:56
- * @LastEditTime: 2022-01-20 11:23:35
+ * @LastEditTime: 2022-01-20 16:56:32
  * @LastEditors: jack-pearson
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: /server-cluster/src/module/user/user.service.ts
  */
 import { Injectable, Logger } from '@nestjs/common';
-import { Dept, User, UserDept } from 'src/entities';
-import { Brackets, createQueryBuilder, getConnection, getRepository } from 'typeorm';
+import { Dept, User } from 'src/entities';
+import { Brackets, createQueryBuilder, getConnection, Connection, getRepository, Like } from 'typeorm';
 import { ApiResponse } from 'src/config/apiResponse';
 import { createToken } from 'src/config';
 import { IApiResponse } from 'src/types';
@@ -122,16 +122,15 @@ export class UserService {
   async query({ account, deptId, pageNum = 1, pageSize = 20 }): Promise<IApiResponse<User[]>> {
     // , 'dept.id = user_dept.deptId'
     // , 'user_dept.userId = user.id'
+    console.log(account, deptId);
     try {
       const [users, total] = await getRepository(User)
-        .createQueryBuilder('dept')
-        .leftJoinAndSelect(UserDept, 'user_dept', 'dept.id = user_dept.deptId')
-        .leftJoinAndSelect(User, 'user', 'user_dept.userId = user.id')
+        .createQueryBuilder('user')
+        .leftJoinAndSelect('user.dept', 'dept')
         .andWhere(
           new Brackets((qb) => {
-            if (account) qb.andWhere('user.account LIKE :account', { account: `%${account}%` });
+            if (account) qb.andWhere('user.account like :account', { account: `%${account}%` });
             if (deptId) qb.andWhere('dept.id = :deptId', { deptId });
-            return qb;
           }),
         )
         .skip((pageNum - 1) * pageSize)
