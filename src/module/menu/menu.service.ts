@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-12-06 17:05:56
- * @LastEditTime: 2021-12-29 14:41:02
+ * @LastEditTime: 2022-01-19 15:34:52
  * @LastEditors: jack-pearson
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: /server-cluster/src/module/menu/menu.service.ts
@@ -26,18 +26,8 @@ export class MenuService {
   }
   async findAllMenu() {
     try {
-      const [list, total] = await getRepository(Menu)
-        .createQueryBuilder('menu')
-        .limit(10)
-        .offset(0)
-        .getManyAndCount();
-      return new ApiResponse()
-        .msg('查询菜单成功')
-        .data({
-          list: dynamicRoutes(list),
-        })
-        .page(1, 10, total)
-        .return();
+      const [list, total] = await getRepository(Menu).createQueryBuilder('menu').limit(10).offset(0).getManyAndCount();
+      return new ApiResponse().msg('查询菜单成功').page(1, 10, total, dynamicRoutes(list)).return();
     } catch (error) {
       this.logger.error(`🐞  ${error}`);
       return new ApiResponse().msg(error.toString()).code(500).return();

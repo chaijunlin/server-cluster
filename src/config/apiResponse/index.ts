@@ -1,7 +1,7 @@
 /*
  * @Author: jack-pearson
  * @Date: 2021-12-13 17:13:45
- * @LastEditTime: 2021-12-29 14:47:26
+ * @LastEditTime: 2022-01-19 17:25:35
  * @LastEditors: jack-pearson
  * @FilePath: /server-cluster/src/config/apiResponse/index.ts
  * @Description:
@@ -31,10 +31,11 @@ export class ApiResponse {
     this.response.code = code;
     return this;
   }
-  page(pageNumber: number, pageSize: number, total: number) {
-    this.response.data.pageNumber = pageNumber;
-    this.response.data.pageSize = pageSize;
+  page(pageNum: number, pageSize: number, total: number, response?: any) {
+    this.response.data.pageNum = +pageNum;
+    this.response.data.pageSize = +pageSize;
     this.response.data.total = total;
+    this.response.data.list = response;
     return this;
   }
   return() {

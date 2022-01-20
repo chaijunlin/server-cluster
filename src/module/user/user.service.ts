@@ -1,14 +1,14 @@
 /*
  * @Author: your name
  * @Date: 2021-12-06 17:05:56
- * @LastEditTime: 2021-12-31 13:40:30
+ * @LastEditTime: 2022-01-20 11:23:35
  * @LastEditors: jack-pearson
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: /server-cluster/src/module/user/user.service.ts
  */
 import { Injectable, Logger } from '@nestjs/common';
-import { User } from 'src/entities';
-import { getRepository } from 'typeorm';
+import { Dept, User, UserDept } from 'src/entities';
+import { Brackets, createQueryBuilder, getConnection, getRepository } from 'typeorm';
 import { ApiResponse } from 'src/config/apiResponse';
 import { createToken } from 'src/config';
 import { IApiResponse } from 'src/types';
@@ -26,11 +26,7 @@ export class UserService {
       if (newUser) {
         return new ApiResponse().msg('新增用户成功').data(newUser).return();
       } else {
-        return new ApiResponse()
-          .msg('新增用户失败')
-          .code(500)
-          .data(newUser)
-          .return();
+        return new ApiResponse().msg('新增用户失败').code(500).data(newUser).return();
       }
     } catch (error) {
       this.logger.error(`🐞  ${error}`);
@@ -51,11 +47,7 @@ export class UserService {
         const newUser = await con.save(Object.assign(findUser, user));
         return new ApiResponse().data(newUser).return();
       } else {
-        return new ApiResponse()
-          .data(findUser)
-          .msg('用户不存在')
-          .code(500)
-          .return();
+        return new ApiResponse().data(findUser).msg('用户不存在').code(500).return();
       }
     } catch (error) {
       this.logger.error(`🐞  ${error}`);
@@ -77,11 +69,7 @@ export class UserService {
         if (delUser) {
           return new ApiResponse().msg('删除用户成功').data(delUser).return();
         } else {
-          return new ApiResponse()
-            .msg('删除用户失败')
-            .code(500)
-            .data(delUser)
-            .return();
+          return new ApiResponse().msg('删除用户失败').code(500).data(delUser).return();
         }
       } else {
         return new ApiResponse().msg('用户不存在').code(500).return();
@@ -117,9 +105,7 @@ export class UserService {
       const user = await getRepository(User).findOne(account);
       if (user) {
         const token = createToken(user);
-        return new ApiResponse()
-          .data({ token: token, ...user })
-          .msg('用户登录成功').response;
+        return new ApiResponse().data({ token: token, ...user }).msg('用户登录成功').response;
       } else {
         return new ApiResponse().msg('用户名或者密码不正确').code(500).return();
       }
@@ -130,13 +116,28 @@ export class UserService {
   }
 
   /**
-   * @description: 查询所有用户
+   * @description: 查询用户
    * @return {User[]} 用户 list
    */
-  async findAllUsers(): Promise<IApiResponse<User[]>> {
+  async query({ account, deptId, pageNum = 1, pageSize = 20 }): Promise<IApiResponse<User[]>> {
+    // , 'dept.id = user_dept.deptId'
+    // , 'user_dept.userId = user.id'
     try {
-      const users = await getRepository(User).find();
-      if (users.length) return new ApiResponse().data(users).return();
+      const [users, total] = await getRepository(User)
+        .createQueryBuilder('dept')
+        .leftJoinAndSelect(UserDept, 'user_dept', 'dept.id = user_dept.deptId')
+        .leftJoinAndSelect(User, 'user', 'user_dept.userId = user.id')
+        .andWhere(
+          new Brackets((qb) => {
+            if (account) qb.andWhere('user.account LIKE :account', { account: `%${account}%` });
+            if (deptId) qb.andWhere('dept.id = :deptId', { deptId });
+            return qb;
+          }),
+        )
+        .skip((pageNum - 1) * pageSize)
+        .take(pageSize)
+        .getManyAndCount();
+      return new ApiResponse().msg('获取用户成功').page(pageNum, pageSize, total, users).return();
     } catch (error) {
       this.logger.error(`🐞  ${error}`);
       return new ApiResponse().msg(error.toString()).code(500).return();

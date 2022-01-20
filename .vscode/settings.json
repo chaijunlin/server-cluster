@@ -8,7 +8,5 @@
     "Description": ""
   },
   "typescript.tsdk": "node_modules/typescript/lib",
-  "editor.accessibilitySupport": "on",
-  "prettier.printWidth": 500,
   "javascript.inlayHints.parameterNames.enabled": "all"
 }

@@ -1,10 +1,10 @@
 /*
  * @Author: your name
  * @Date: 2021-12-06 17:12:13
- * @LastEditTime: 2022-01-18 11:36:30
+ * @LastEditTime: 2022-01-19 14:40:46
  * @LastEditors: jack-pearson
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
- * @FilePath: /server-cluster/src/entities/user/index.entities.ts
+ * @FilePath: /server-cluster/src/entities/user.entities.ts
  */
 import {
   Entity,
@@ -12,7 +12,6 @@ import {
   Column,
   CreateDateColumn,
   UpdateDateColumn,
-  Timestamp,
 } from 'typeorm';
 import { plainToInstance, Expose } from 'class-transformer';
 @Entity({
@@ -75,9 +74,9 @@ export class User {
   })
   sex: 'null' | 'man' | 'girl';
 
-  @CreateDateColumn({ length: 0 })
+  @CreateDateColumn()
   createTime: Date;
 
-  @UpdateDateColumn({ length: 0 })
+  @UpdateDateColumn()
   updateTime: Date;
 }

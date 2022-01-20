@@ -1,9 +1,9 @@
 /*
  * @Author: jack-pearson
  * @Date: 2022-01-17 15:37:01
- * @LastEditTime: 2022-01-18 13:33:27
+ * @LastEditTime: 2022-01-19 14:37:33
  * @LastEditors: jack-pearson
- * @FilePath: /server-cluster/src/entities/dept/index.entities.ts
+ * @FilePath: /server-cluster/src/entities/dept.entities.ts
  * @Description:
  */
 import {
@@ -11,7 +11,6 @@ import {
   CreateDateColumn,
   Entity,
   PrimaryColumn,
-  Timestamp,
   UpdateDateColumn,
 } from 'typeorm';
 import { plainToClass } from 'class-transformer';

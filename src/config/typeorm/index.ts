@@ -1,7 +1,7 @@
 /*
  * @Author: jack-pearson
  * @Date: 2021-12-28 18:19:39
- * @LastEditTime: 2021-12-29 10:24:40
+ * @LastEditTime: 2022-01-19 19:05:55
  * @LastEditors: jack-pearson
  * @FilePath: /server-cluster/src/config/typeorm/index.ts
  * @Description:
@@ -22,6 +22,7 @@ import * as entities from 'src/entities';
       database: 'server-cluster',
       entities: Object.values(entities),
       synchronize: true,
+      logging: true,
     }),
   ],
 })

@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-12-06 17:05:36
- * @LastEditTime: 2021-12-30 18:35:49
+ * @LastEditTime: 2022-01-19 14:18:31
  * @LastEditors: jack-pearson
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: /server-cluster/src/module/user/user.controller.ts
@@ -14,6 +14,7 @@ import {
   HttpCode,
   Param,
   Post,
+  Query,
   UsePipes,
 } from '@nestjs/common';
 import { ParameterCheckPipe } from 'src/common';
@@ -57,8 +58,8 @@ export class UserController {
     return this.userService.findUserById(id);
   }
 
-  @Get('/findAllUsers')
-  findAllUsers() {
-    return this.userService.findAllUsers();
+  @Get('/query')
+  queryUser(@Query() query: any) {
+    return this.userService.query(query);
   }
 }
