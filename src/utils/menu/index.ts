@@ -1,7 +1,7 @@
 /*
  * @Author: jack-pearson
  * @Date: 2021-12-31 13:39:48
- * @LastEditTime: 2022-01-14 18:55:52
+ * @LastEditTime: 2022-02-07 14:09:23
  * @LastEditors: jack-pearson
  * @FilePath: /server-cluster/src/utils/menu/index.ts
  * @Description:
@@ -33,7 +33,7 @@ export const dynamicRoutes = (menu: Menu[]) => {
         },
       });
     } else {
-      const parent = pre.find((item) => item.id === cur.parentId);
+      const parent = findTreeItem(pre, cur.parentId);
       if (parent) {
         parent.children = parent.children || [];
         parent.children.push({
@@ -56,5 +56,19 @@ export const dynamicRoutes = (menu: Menu[]) => {
     }
     return pre;
   }, []);
+  return res;
+};
+
+export const findTreeItem = (menu: Menu[], id: number) => {
+  let res: Menu;
+  menu.forEach((item) => {
+    if (item.id === id) {
+      res = item;
+    } else {
+      if (item.children) {
+        res = findTreeItem(item.children, id);
+      }
+    }
+  });
   return res;
 };

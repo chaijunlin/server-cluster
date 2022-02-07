@@ -1,24 +1,19 @@
 /*
  * @Author: jack-pearson
  * @Date: 2021-12-13 13:45:30
- * @LastEditTime: 2022-01-18 11:32:53
+ * @LastEditTime: 2022-02-07 14:04:38
  * @LastEditors: jack-pearson
- * @FilePath: /server-cluster/src/entities/menu/index.entities.ts
+ * @FilePath: /server-cluster/src/entities/menu.entities.ts
  * @Description:
  */
-import {
-  Entity,
-  PrimaryColumn,
-  Column,
-  CreateDateColumn,
-  UpdateDateColumn,
-} from 'typeorm';
+import { Entity, PrimaryColumn, Column, CreateDateColumn, UpdateDateColumn } from 'typeorm';
 import { IsNotEmpty } from 'class-validator';
 import { plainToInstance, Expose } from 'class-transformer';
 @Entity({
   name: 'menu',
 })
 export class Menu {
+  children?: any;
   constructor(menu: Partial<Menu>) {
     if (menu) {
       Object.assign(
